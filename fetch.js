@@ -12,7 +12,7 @@
 
     $.get(contents_uri, function(r) {
         parser = PEG.buildParser(atob(r.content));
-        parser.parse(rest);
+        aceOutputTerm.setValue(traverse(parser.parse(rest)));
       });
   };
 
