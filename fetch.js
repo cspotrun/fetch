@@ -12,8 +12,7 @@
 
     $.get(contents_uri, function(r) {
         parser = PEG.buildParser(atob(r.content));
-        setParser(parser);
-        setSourceString(rest);
+        fetchCallback(parser, rest);
       });
   };
 
