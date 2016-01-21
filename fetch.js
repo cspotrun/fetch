@@ -12,13 +12,14 @@
 
     $.get(contents_uri, function(r) {
         parser = PEG.buildParser(atob(r.content));
-        aceOutputTerm.setValue(traverse(parser.parse(rest)));
+        setParser(parser);
+        setSourceString(rest);
       });
   };
 
 }
 
-program = fs:fetch_stmt wsnl r:$rest { fetchTheRepo(fs.location.user, fs.location.repo, r); }
+program = fs:fetch_stmt _ r:$rest { fetchTheRepo(fs.location.user, fs.location.repo, r); }
 
 fetch_stmt = 'fetch' ws repo:fetch_repo nl { return {name: 'fetch', location: repo}; }
 
@@ -26,10 +27,12 @@ fetch_repo = user:$id '/' repo:$id { return {user: user, repo: repo}; }
 
 id = [-a-zA-Z]+
 
+_ = ws*
+
 wsnl = (ws/nl)
 
-ws = [ \t]*
+ws = [ \t]
 
-nl = [\n\r]*
+nl = [\n\r]
 
 rest = $.*
